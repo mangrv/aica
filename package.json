@@ -1,0 +1,148 @@
+{
+  "name": "aica",
+  "displayName": "AICA",
+  "description": "AI-powered code reviewer using local or remote Ollama instance",
+  "version": "0.0.1",
+  "publisher": "mangrv",
+  "engines": {
+    "vscode": "^1.104.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:aica.reviewFile",
+    "onCommand:aica.reviewSelection",
+    "onCommand:aica.reviewWorkspace",
+    "onCommand:aica.attachFile",
+    "onCommand:aica.scanCodebase",
+    "onCommand:aica.applyEdit",
+    "onView:aica.chat"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "aica",
+          "title": "AICA",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "aica": [
+        {
+          "id": "aica.chat",
+          "name": "Chat",
+          "type": "webview",
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "aica.reviewFile",
+        "title": "AICA: Review Current File",
+        "category": "AICA"
+      },
+      {
+        "command": "aica.reviewSelection",
+        "title": "AICA: Review Selection",
+        "category": "AICA"
+      },
+      {
+        "command": "aica.reviewWorkspace",
+        "title": "AICA: Review Workspace",
+        "category": "AICA"
+      },
+      {
+        "command": "aica.attachFile",
+        "title": "AICA: Attach File to Context",
+        "category": "AICA"
+      },
+      {
+        "command": "aica.scanCodebase",
+        "title": "AICA: Index Codebase",
+        "category": "AICA"
+      },
+      {
+        "command": "aica.applyEdit",
+        "title": "AICA: Apply Suggested Edit",
+        "category": "AICA"
+      },
+      {
+        "command": "aica.openSettings",
+        "title": "AICA: Open Settings",
+        "category": "AICA"
+      }
+    ],
+    "configuration": {
+      "title": "AICA Configuration",
+      "properties": {
+        "aica.apiUrl": {
+          "type": "string",
+          "default": "http://localhost:11434",
+          "description": "Ollama server IP address and port",
+          "pattern": "^https?://[\\w\\.-]+(:\\d+)?$",
+          "patternErrorMessage": "Must be a valid URL (e.g., http://192.168.1.199:3256)",
+          "order": 1
+        },
+        "aica.model": {
+          "type": "string",
+          "default": "codellama",
+          "description": "Ollama model name for AI responses",
+          "examples": [
+            "codellama",
+            "deepseek-r1:70b",
+            "llama2",
+            "mistral",
+            "deepseek-coder"
+          ],
+          "order": 2
+        },
+        "aica.chatHistory": {
+          "type": "boolean",
+          "default": true,
+          "description": "Keep chat history between sessions",
+          "order": 3
+        },
+        "aica.streamingEnabled": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable streaming responses for better UX",
+          "order": 4
+        }
+      }
+    }
+  },
+  "scripts": {
+    "vscode:prepublish": "pnpm run package",
+    "compile": "webpack",
+    "watch": "webpack --watch",
+    "package": "webpack --mode production --devtool hidden-source-map",
+    "compile-tests": "tsc -p . --outDir out",
+    "watch-tests": "tsc -p . -w --outDir out",
+    "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
+    "lint": "eslint src",
+    "test": "vscode-test"
+  },
+  "dependencies": {
+    "axios": "^1.7.7",
+    "diff": "^8.0.2"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.10",
+    "@types/node": "22.x",
+    "@types/vscode": "^1.104.0",
+    "@typescript-eslint/eslint-plugin": "^8.42.0",
+    "@typescript-eslint/parser": "^8.42.0",
+    "@vscode/test-cli": "^0.0.11",
+    "@vscode/test-electron": "^2.5.2",
+    "eslint": "^9.34.0",
+    "ts-loader": "^9.5.4",
+    "typescript": "^5.9.2",
+    "webpack": "^5.101.3",
+    "webpack-cli": "^6.0.1"
+  }
+}
